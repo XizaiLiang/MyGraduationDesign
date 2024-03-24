@@ -1,0 +1,41 @@
+<!-- 运行指令roslaunch tactile_paving Start_control.launch ctrl_level:=highlevel-->
+<launch>
+    <!--前置摄像头地址-->
+    <param name="cam_up" type="string" value="1" />
+    <!--下巴摄像头地址-->
+    <param name="cam_down" type="string" value="2" />
+    <!--本地IP地址 192.168.123.xxx-->
+    <param name="IpLastSegment" type="string" value="120" />
+    <!--下巴摄像头刷新频率。-->
+    <param name="img_sleesp" type="string" value="30" />
+    <!--交通灯检测模型地址-->
+    <param name="paddle_model_path" type="string" value="$(dirname)/../scripts/PaddleDetection/output_inference/picodet_m_416_coco_lcnet"/>
+    <!--雷达场景 0关闭 1空场地直行 2盲道辅助避障-->
+    <param name="lidar_modle" type="string" value="2" />
+
+    <!--控制ros节点-->
+    <arg name="ctrl_level" default="highlevel"/>
+    <node pkg="unitree_legged_real" type="ros_udp" name="node_ros_udp" args="$(arg ctrl_level)"/>
+    <param name="control_level" value="$(arg ctrl_level)"/>
+    <node pkg="tactile_paving" type="unitree_put_cmd" name="unitree_put_cmd" launch-prefix="xterm -e"/>
+    
+    <!--交通灯检测、盲道位置节点--> 
+    <node pkg="paddle_detection" name="paddle_detection_main" type="paddle_detection_main" output="screen"/>
+
+    <!--寻迹--> 
+    <node pkg="tactile_paving" type="example_tracing" name="node_example_tracing"  output="screen"/>
+
+    <!--雷达避障 自动发布话题开启或关闭下巴摄像头的话题发布 并控制机器狗移动避开障碍物--> 
+    <node pkg="tactile_paving" name="lidar_node" type="lidar_node" launch-prefix="xterm -e"/>
+
+    <!--机器狗前灯光-->
+    <node pkg="face_light_sdk_nano" name="faceLightClient" type="faceLightClient"/>
+
+    <!--语音控制节点    控制寻迹开启
+    <node pkg="robot_voice" type="iat_publish" name="iat_publish"  output="screen"/>
+    <node pkg="robot_voice" type="tts_subscribe" name="tts_subscribe"  output="screen"/>
+    <node pkg="robot_voice" type="voice_control" name="car_control" output="screen"/>
+-->
+    
+
+</launch>
