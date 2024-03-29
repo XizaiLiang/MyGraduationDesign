@@ -5,9 +5,9 @@
 - **Paddle Inference**: 使用预编译的C++版本，部署到ARM设备上请使用ARM版本。
 - **GStreamer**: 依赖项。
 
-# 需要修改的内容
+## 需要修改的内容
 
-## paddle_detection/CMakeLists.txt：
+### paddle_detection/CMakeLists.txt：
 
 - `WITH_MKL`: 是否使用MKL或OpenBLAS，对于TX2设备需要设置为OFF。
 - `WITH_GPU`: 是否使用GPU预测，可选。
@@ -18,11 +18,11 @@
 - `TENSORRT_INC_DIR`: TensorRT的include路径。
 - `TENSORRT_LIB_DIR`: TensorRT的lib路径。
 
-## tactile_paving/scripts/signalLampDetection.py：
+### tactile_paving/scripts/signalLampDetection.py：
 
 - 将第一行修改为本地Python路径。
 
-# 功能包说明
+## 功能包说明
 
 - **face_light_sdk_nano**: 机器狗头部灯光。
 - **paddle_detection**: 飞桨目标识别C++版本。
@@ -31,11 +31,11 @@
 - **tactile_paving**: 导盲场景。
 - **unitree_legged_msgs、unitree_legged_real、unitree_legged_sdk-master**: 宇树机器狗控制功能包。
 
-# 主要运行命令
+## 主要运行命令
 
 - `roslaunch tactile_paving Start_control.launch`: 启动导盲场景，自动开启寻迹、雷达避障、机器狗前灯。
 
-# 主要业务代码
+## 主要业务代码
 
 - `tactile_paving/src/example_Tracing.cpp`: 寻迹场景。
 - `tactile_paving/src/lidar_node.cpp`: 雷达避障。
@@ -45,6 +45,6 @@
 - `paddle_detection/src/main.cc`: C++版本的飞桨目标识别。
 - `face_light_sdk_nano/src/main.cpp`: 机器狗头部灯光。
 
-# 可修改的启动文件
+## 可修改的启动文件
 
 - `tactile_paving/launch/Start_control.launch`。
